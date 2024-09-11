@@ -1,0 +1,44 @@
+*{
+    margin:0;
+    padding:0;
+}
+body {
+    background-color: #260445;
+    color: white;
+    font-family: 'Cambria';
+}
+header{
+    width:100%;
+    padding: 15px 10%;
+    color: #fbfda9;
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+    background: #592f7f;
+    border-bottom: 2px solid #fbfda9;
+}
+    header nav a {
+        text-decoration: none;
+        color: #fda9c6 !important;
+        
+        margin-left: 15px;
+    }
+header nav a:hover {text-decoration: underline}
+.my-logo {
+        font-family: 'Edwardian Script ITC';
+        font-size: 2rem;
+    }
+main {
+    width: 100%;
+    padding: 15px 10%;
+    margin:50px 0;
+}
+footer {
+    margin-top:20%;
+    text-align: center;
+    padding: 25px 0;
+    color: #fca3f6;
+    font-size: 1.2rem;
+    background: #592f7f;
+    border-top: 2px solid #fbfda9;
+}
