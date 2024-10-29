@@ -1,27 +1,29 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using WebApplication1.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddXmlFile("appsettings.xml", optional: true, reloadOnChange: true)
+    .AddIniFile("appsettings.ini", optional: true, reloadOnChange: true);
+
+builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+app.MapGet("/", (IEmployeeService employeeService, IConfiguration configuration) =>
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    var companyWithMaxEmployees = employeeService.GetCompanyWithMaxEmployees();
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+    var name = configuration["PersonalInfo:Name"];
+    var age = configuration["PersonalInfo:Age"];
+    var city = configuration["PersonalInfo:City"];
+    var occupation = configuration["PersonalInfo:Occupation"];
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    return $"Компанія з найбільшою кількістю співробітників: {companyWithMaxEmployees}\r\n" +
+           $"Моє ім'я: {name}, Вік: {age}, Місто: {city}, Рід занять: {occupation}";
+});
 
 app.Run();
